@@ -30,11 +30,11 @@ std::string util::get_timestamp()
         << "/"
         << local_tm.tm_year + 1900
         << " "
-        << local_tm.tm_hour
+        << std::setfill('0') << std::setw(2) << local_tm.tm_hour
         << ":"
-        << local_tm.tm_min
+        << std::setfill('0') << std::setw(2) << local_tm.tm_min
         << ":"
-        << local_tm.tm_sec;
+        << std::setfill('0') << std::setw(2) << local_tm.tm_sec;
 
     return ret.str();
 }
