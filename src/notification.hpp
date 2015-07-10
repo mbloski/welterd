@@ -14,10 +14,7 @@ public:
     ~PushNotification();
 
     PushNotification &operator=(const char *message);
-
-    void set_message(std::string message);
-    void set_icon(std::string icon);
-    std::string get_message();
+    
     bool push();
 
     std::string title;

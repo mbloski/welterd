@@ -1,1 +1,1 @@
-This is supposed to be a simple daemonized Pushover client running as a user process, using libnotify.
+This is supposed to be a simple daemonized Pushover client running as a user process, using libnotify. (work in progress)

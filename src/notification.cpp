@@ -17,16 +17,6 @@ PushNotification &PushNotification::operator=(const char *message)
     return *this;
 }
 
-void PushNotification::set_message(std::string message)
-{
-    this->operator=(message.c_str());
-}
-
-void PushNotification::set_icon(std::string icon)
-{
-    this->icon = icon;
-}
-
 PushNotification::PushNotification(std::string title, std::string url)
 {
     this->title = title;
@@ -45,11 +35,6 @@ bool PushNotification::push()
     }
     notify_notification_show(this->libnotify_notification, nullptr);
     this->pushed = true;
-}
-
-std::string PushNotification::get_message()
-{
-    return this->message;
 }
 
 PushNotification::~PushNotification()
