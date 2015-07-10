@@ -3,7 +3,8 @@
 static int write_function(char *data, size_t size, size_t nmemb, std::string *buf)
 {
     int ret = 0;
-    if (buf != NULL) {
+    if (buf != NULL)
+    {
         buf->append(data, size * nmemb);
         ret = size * nmemb;
     }

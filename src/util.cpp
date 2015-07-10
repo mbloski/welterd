@@ -113,6 +113,6 @@ void util::htmlspecialchars(std::string &str)
             break;
         }
     }
-    
+
     str.swap(buf);
 }

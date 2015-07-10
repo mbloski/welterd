@@ -25,12 +25,14 @@ PushNotification::PushNotification(std::string title, std::string url)
 
 bool PushNotification::push()
 {
-    if (this->icon.empty()) {
+    if (this->icon.empty())
+    {
         this->icon = util::get_workdir() + "/icons/pushover-icon.png";
     }
 
     this->libnotify_notification = notify_notification_new(this->title.c_str(), this->message.c_str(), this->icon.c_str());
-    if (!this->url.empty()) {
+    if (!this->url.empty())
+    {
         notify_notification_add_action(this->libnotify_notification, "default", "Open URL", (NotifyActionCallback)handle_url, (void *)this->url.c_str(), 0);
     }
     notify_notification_show(this->libnotify_notification, nullptr);

@@ -33,13 +33,13 @@ void login_wizard(Profile *profile, API *api)
     std::cout << "Welcome! You need to login in order to use welterd." << std::endl;
     std::string email;
     std::string password;
-    
+
     for (uint8_t i = 0; i < 3; ++i)
     {
         std::cout << "  e-mail: ";
         std::getline(std::cin, email);
         std::cout << "password: ";
-        
+
         termios tty;
         tcgetattr(STDIN_FILENO, &tty);
         tty.c_lflag &= ~ECHO;
@@ -47,15 +47,15 @@ void login_wizard(Profile *profile, API *api)
         std::getline(std::cin, password);
         tty.c_lflag |= ECHO;
         tcsetattr(STDIN_FILENO, TCSANOW, &tty);
-        
+
         std::cout << "(hidden)\n";
-        
+
         std::string res = api->login(email, password);
-        
+
         Json::Value json;
         Json::Reader reader;
         reader.parse(res, json);
-        
+
         if (json["status"].asInt() != 1)
         {
             std::cout << "ERROR: Wrong e-mail or password" << std::endl;
@@ -64,7 +64,7 @@ void login_wizard(Profile *profile, API *api)
         {
             std::string user_key = json["id"].asString();
             std::string secret = json["secret"].asString();
-            
+
             std::ofstream ofprofile;
             ofprofile.open("profile", std::ofstream::out);
             if (!ofprofile)
@@ -74,14 +74,14 @@ void login_wizard(Profile *profile, API *api)
                           << user_key << "\n" << secret << "\n" << std::endl;
                 return;
             }
-            
+
             ofprofile << user_key + "\n" + secret;
             ofprofile.close();
-            
+
             return;
         }
     }
-    
+
     std::cout << "ERROR: Take a break" << std::endl;
     exit(1);
 }
@@ -89,8 +89,8 @@ void login_wizard(Profile *profile, API *api)
 void device_wizard(Profile *profile, API *api)
 {
     std::cout << "This device hasn't been registered yet. Let's do this now." << std::endl;
-    
-    while(true)
+
+    while (true)
     {
         std::cout << "What to name this device? (up to 25 characters long): ";
 
@@ -123,7 +123,7 @@ void device_wizard(Profile *profile, API *api)
                 }
                 std::cout << "Error: " << errstr << std::endl;
             }
-            
+
             if (nameerror == "has already been taken")
             {
                 std::cout << "If you want to reuse this name, go to http://pushover.net/ and delete the matching device." << std::endl;
@@ -143,7 +143,7 @@ void device_wizard(Profile *profile, API *api)
             }
             ofdevice_id << device_id;
             ofdevice_id.close();
-            
+
             std::cout << "Congratulations. Your profile is now complete and ready to receive notifications." << std::endl;
             return;
         }
@@ -161,7 +161,7 @@ int main(int argc, char **argv)
         login_wizard(&profile, &pushover_api);
         profile.reload();
     }
-    
+
     if (profile.get_status() == ProfileStatus::STATUS_NODEVICE)
     {
         device_wizard(&profile, &pushover_api);

@@ -14,20 +14,24 @@ public:
     logger();
     ~logger();
 
-    inline logger &operator<<(std::ostream & (*data)(std::ostream &)) {
+    inline logger &operator<<(std::ostream & (*data)(std::ostream &))
+    {
         std::cout << data;
         this->stream << data;
 
         /* oh dear... */
-        if (data == (std::basic_ostream<char> &( *)(std::basic_ostream<char> &)) &std::endl) {
+        if (data == (std::basic_ostream<char> &( *)(std::basic_ostream<char> &)) &std::endl)
+        {
             iseol = true;
         }
 
         return *this;
     }
 
-    template <typename T> logger &operator<<(const T &data) {
-        if (iseol) {
+    template <typename T> logger &operator<<(const T &data)
+    {
+        if (iseol)
+        {
             std::string header = util::get_timestamp() + "  --  ";
             std::cout << header;
             this->stream << header;

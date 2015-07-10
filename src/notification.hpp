@@ -14,7 +14,7 @@ public:
     ~PushNotification();
 
     PushNotification &operator=(const char *message);
-    
+
     bool push();
 
     std::string title;

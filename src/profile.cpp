@@ -13,23 +13,23 @@ void Profile::reload()
         ofdevice_id.open("device_id");
         ofdevice_id.close();
     }
-    
+
     if (access("profile", R_OK) == -1)
     {
         std::ofstream ofprofile;
         ofprofile.open("profile");
         ofprofile.close();
     }
-    
+
     std::ifstream ifdevice_id("device_id");
     std::ifstream ifprofile("profile");
 
     if (access("device_id", R_OK) == -1 || access("profile", R_OK) == -1)
     {
         std::cout << "ERROR: Make sure the following files:\n"
-                   + util::get_workdir() + "/device_id\n"
-                   + util::get_workdir() + "/profile\n"
-                   << "have appropriate read/write permissions and try again." << std::endl;
+                  + util::get_workdir() + "/device_id\n"
+                  + util::get_workdir() + "/profile\n"
+                  << "have appropriate read/write permissions and try again." << std::endl;
         exit(1);
     }
 
@@ -39,12 +39,17 @@ void Profile::reload()
 
     ifdevice_id.close();
     ifprofile.close();
-    
-    if (this->user_key.empty() || this->secret.empty()) {
+
+    if (this->user_key.empty() || this->secret.empty())
+    {
         this->status = ProfileStatus::STATUS_NOINIT;
-    } else if (this->device_id.empty()) {
+    }
+    else if (this->device_id.empty())
+    {
         this->status = ProfileStatus::STATUS_NODEVICE;
-    } else {
+    }
+    else
+    {
         this->status = ProfileStatus::STATUS_OK;
     }
 }
