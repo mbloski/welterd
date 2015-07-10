@@ -12,7 +12,8 @@ profile.cpp
 
 target_link_libraries(
 welterd
-notify gtk-3
+notify
+gtk-3
 gio-2.0
 jsoncpp
 curl

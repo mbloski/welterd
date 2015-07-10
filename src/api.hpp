@@ -15,6 +15,7 @@ public:
     std::string login(std::string email, std::string password);
     std::string register_device(std::string name);
     std::string fetch_messages();
+    std::string delete_message(int message);
 
 private:
     std::string generic_curl_request(std::string uri, std::string params = "");

@@ -3,7 +3,8 @@
 void handle_url(NotifyNotification *notification, gchar *action, gpointer user_data)
 {
     GError *error = NULL;
-    g_app_info_launch_default_for_uri((const char *)user_data, NULL, &error);
+    std::string url = (const char *)user_data;
+    g_app_info_launch_default_for_uri(url.c_str(), NULL, &error);
 }
 
 PushNotification::PushNotification()

@@ -172,37 +172,46 @@ int main(int argc, char **argv)
 
     std::cout << "welterd is starting up" << std::endl;
     logger mainlog;
+    
+    std::cout << "forking into background..." << std::endl;
+    daemon(1, 0);
 
-    //std::cout << "forking into background..." << std::endl;
-    //daemon(1, 0);
+    mainlog << "welterd started up" << std::endl;
 
-    // This is just a test.
     Json::Value ret;
     Json::Reader reader;
-    reader.parse(pushover_api.fetch_messages(), ret);
-
-    Json::Value list = ret["messages"];
-    for (Json::ValueIterator i = list.begin(); i != list.end(); ++i)
+        
+    while (true)
     {
-        std::string message = i->get("message", "").asString();
-        std::string title = i->get("title", "").asString();
-        std::string url = i->get("url", "").asString();
+        gtk_main_iteration_do(false);
 
-        PushNotification n;
-        n.title = title;
-        n.url = url;
-        n.message = message;
-        n.push();
+        // This is just a test. / TODO: wss://client.pushover.net/push
+        reader.parse(pushover_api.fetch_messages(), ret);
+
+        Json::Value list = ret["messages"];
+        for (Json::ValueIterator i = list.begin(); i != list.end(); ++i)
+        {
+            std::string message = i->get("message", "").asString();
+            std::string title = i->get("title", "").asString();
+            std::string url = i->get("url", "").asString();
+
+            PushNotification n;
+            n.title = title;
+            n.url = url; // FIXME: keep the notifications in memory to keep urls clickable?...
+            n.message = message;
+            n.push();
+            
+            mainlog << title + " - " + message << std::endl;
+
+            pushover_api.delete_message(i->get("id", "").asInt());
+        }
+        
+        sleep(5); // No, we won't need this.
     }
-
-    mainlog << "test" << std::endl;
-
-    /*while (true)
-    {
-      gtk_main_iteration();
-
-    }*/
 
     curl_global_cleanup();
     return 0;
 }
+
+
+
