@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 
     std::cout << "welterd is starting up" << std::endl;
     logger mainlog;
-    
+
     std::cout << "forking into background..." << std::endl;
     daemon(1, 0);
 
@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 
     Json::Value ret;
     Json::Reader reader;
-        
+
     while (true)
     {
         gtk_main_iteration_do(false);
@@ -198,14 +198,15 @@ int main(int argc, char **argv)
             PushNotification n;
             n.title = title;
             n.url = url; // FIXME: keep the notifications in memory to keep urls clickable?...
+            // TODO: icons
             n.message = message;
             n.push();
-            
+
             mainlog << title + " - " + message << std::endl;
 
             pushover_api.delete_message(i->get("id", "").asInt());
         }
-        
+
         sleep(5); // No, we won't need this.
     }
 

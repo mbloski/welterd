@@ -39,6 +39,7 @@ public:
         }
         std::cout << data;
         this->stream << data;
+        return *this;
     }
 
 private:
